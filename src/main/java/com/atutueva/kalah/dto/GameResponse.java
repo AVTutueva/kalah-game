@@ -1,10 +1,12 @@
 package com.atutueva.kalah.dto;
 
 import com.atutueva.kalah.model.GameState;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Schema
 public class GameResponse {
     private UUID id;
     private GameState state;
@@ -41,5 +43,13 @@ public class GameResponse {
                 "id=" + id +
                 ", state=" + state +
                 '}';
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
     }
 }

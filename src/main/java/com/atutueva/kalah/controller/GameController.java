@@ -1,5 +1,6 @@
 package com.atutueva.kalah.controller;
 
+import com.atutueva.kalah.dto.GameResponse;
 import com.atutueva.kalah.service.GameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,12 @@ public class GameController {
     }
 
     @PostMapping
-    public ResponseEntity createGame() {
+    public ResponseEntity<GameResponse> createGame() {
         return ResponseEntity.status(HttpStatus.CREATED).body(gameService.createGame());
     }
 
     @PutMapping("/{gameId}")
-    public ResponseEntity makeMove(@PathVariable UUID gameId, @RequestParam int pitIndex) {
+    public ResponseEntity<GameResponse> makeMove(@PathVariable UUID gameId, @RequestParam int pitIndex) {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.makeMove(gameId, pitIndex));
     }
 }
