@@ -7,7 +7,7 @@ public class PlayerBoard {
     private int[] pits;
     private int kalah;
 
-    public PlayerBoard(int[] pits, int kalah){
+    public PlayerBoard(int[] pits, int kalah) {
         this.pits = Arrays.copyOf(pits, pits.length);
         this.kalah = kalah;
     }

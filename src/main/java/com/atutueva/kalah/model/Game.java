@@ -51,11 +51,13 @@ public class Game {
         if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) throw new IllegalArgumentException("Pit Index is invalid");
 
         int initPlayer = getPlayerIndex();
+
         int currPlayer = initPlayer;
         int[] currentBoard = board[currPlayer];
 
         int stonesToMove = currentBoard[pitIndex];
-        if (stonesToMove == 0) throw new IllegalArgumentException("Invalid move. Stones to move number should be than zero");
+        if (stonesToMove == 0)
+            throw new IllegalArgumentException("Invalid move. Stones to move number should be than zero");
 
         // take off stones from pit
         currentBoard[pitIndex] = 0;
@@ -64,7 +66,7 @@ public class Game {
         // move stones
         while (stonesToMove > 0) {
             // skip opponent kalah
-            if (!(currPlayer != initPlayer && i == PINTS_PER_PLAYER)){
+            if (!(currPlayer != initPlayer && i == PINTS_PER_PLAYER)) {
                 currentBoard[i]++;
                 stonesToMove--;
             }
@@ -84,14 +86,14 @@ public class Game {
         // own opponent stones
         boolean isKalah = i == PINTS_PER_PLAYER;
 
-        int[] opponentBoard = board[(currPlayer + 1) % 2];
+        int[] opponentBoard = board[(initPlayer + 1) % 2];
         if (!isKalah) {
             int opponentStones = opponentBoard[PINTS_PER_PLAYER - i];
 
             boolean isInitSide = currPlayer == initPlayer;
             boolean oneStoneInLastPit = currentBoard[i] == 1;
 
-            if (oneStoneInLastPit && isInitSide && opponentStones != 0){
+            if (oneStoneInLastPit && isInitSide && opponentStones != 0) {
                 currentBoard[PINTS_PER_PLAYER] += opponentStones + 1;
                 currentBoard[i] = 0;
                 opponentBoard[PINTS_PER_PLAYER - i] = 0;
@@ -100,36 +102,41 @@ public class Game {
             status = (status == GameStatus.PlAYER1_TURN) ? GameStatus.PlAYER2_TURN : GameStatus.PlAYER1_TURN;
         }
 
+        gameIsOverCheck(initPlayer);
 
-        // Check win
+        return getState();
+    }
+
+    private void gameIsOverCheck(int initPlayer) {
+        int[] currentBoard = board[initPlayer];
+        int[] opponentBoard = board[(initPlayer + 1) % 2];
+
         int halfOfTotalStones = PINTS_PER_PLAYER * INIT_STONES_PER_PIT;
 
         int currentPlayerPitsStones = Utils.arraySum(currentBoard, currentBoard.length - 1);
         int opponentPitsStones = Utils.arraySum(opponentBoard, opponentBoard.length - 1);
 
-        if (currentPlayerPitsStones == 0 || opponentPitsStones == 0){
+        if (currentPlayerPitsStones == 0 || opponentPitsStones == 0) {
             currentBoard[PINTS_PER_PLAYER] += currentPlayerPitsStones;
             opponentBoard[PINTS_PER_PLAYER] += opponentPitsStones;
-            for (int j = 0; j < PINTS_PER_PLAYER; j++){
+            for (int j = 0; j < PINTS_PER_PLAYER; j++) {
                 currentBoard[j] = 0;
                 opponentBoard[j] = 0;
             }
         }
 
         boolean bothHaveEqualStones = currentBoard[PINTS_PER_PLAYER] == opponentBoard[PINTS_PER_PLAYER];
-        if (bothHaveEqualStones && currentBoard[PINTS_PER_PLAYER] == halfOfTotalStones){
+        if (bothHaveEqualStones && currentBoard[PINTS_PER_PLAYER] == halfOfTotalStones) {
             status = GameStatus.STANDOFF;
         }
         if (currentBoard[PINTS_PER_PLAYER] > halfOfTotalStones) {
             status = (initPlayer == 0) ? GameStatus.PLAYER1_WIN : GameStatus.PLAYER2_WIN;
         }
-
-        return getState();
     }
 
 
-    private int getPlayerIndex(){
-        switch (status){
+    private int getPlayerIndex() {
+        switch (status) {
             case PlAYER1_TURN -> {
                 return 0;
             }

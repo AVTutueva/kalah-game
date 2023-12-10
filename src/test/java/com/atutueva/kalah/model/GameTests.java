@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameTests {
     @Test
-    public void initGameWith6PitsAndEmptyKalahAndZeroIndexOfFirstPlayer(){
+    public void initGameWith6PitsAndEmptyKalahAndZeroIndexOfFirstPlayer() {
         Game game = Game.newGame();
 
         GameState expected = new GameStateBuilder(6)
@@ -23,7 +23,7 @@ public class GameTests {
     }
 
     @Test
-    public void throwExceptionForKalahIndexAsPitIndex(){
+    public void throwExceptionForKalahIndexAsPitIndex() {
         Game game = Game.newGame();
         int inputPitIndex = 6;
 
@@ -33,17 +33,17 @@ public class GameTests {
     }
 
     @Test
-    public void throwExceptionForNegativeValueAsPitIndex(){
+    public void throwExceptionForNegativeValueAsPitIndex() {
         Game game = Game.newGame();
         int inputPitIndex = -1;
 
         assertThrows(IllegalArgumentException.class, () -> {
-            game.makeMove( inputPitIndex);
+            game.makeMove(inputPitIndex);
         });
     }
 
     @Test
-    public void throwExceptionForPitIndexWithZeroStone(){
+    public void throwExceptionForPitIndexWithZeroStone() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 1, 0, 4, 1, 1)
                 .player1Kalah(20)
@@ -55,12 +55,12 @@ public class GameTests {
         Game game = Game.fromState(state);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            game.makeMove( 0);
+            game.makeMove(0);
         });
     }
 
     @Test
-    public void throwExceptionIwGameIsAlreadyOver(){
+    public void throwExceptionIwGameIsAlreadyOver() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 0, 0, 0, 0, 0)
                 .player1Kalah(40)
@@ -71,14 +71,13 @@ public class GameTests {
         Game game = Game.fromState(state);
 
         assertThrows(IllegalStateException.class, () -> {
-            game.makeMove( 0);
+            game.makeMove(0);
         });
     }
 
 
-
     @Test
-    public void move6StonesFromSecondPit(){
+    public void move6StonesFromSecondPit() {
         Game game = Game.newGame();
         game.makeMove(1);
 
@@ -95,7 +94,7 @@ public class GameTests {
     }
 
     @Test
-    public void move6StonesFromLastPitTakeTurn(){
+    public void move6StonesFromLastPitTakeTurn() {
         Game game = Game.newGame();
         game.makeMove(5);
 
@@ -112,7 +111,7 @@ public class GameTests {
     }
 
     @Test
-    public void doTwoСirclesWithoutRepeatingStep(){
+    public void doTwoСirclesWithoutRepeatingStep() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(1, 1, 1, 1, 1, 26)
                 .player1Kalah(1)
@@ -136,7 +135,7 @@ public class GameTests {
     }
 
     @Test
-    public void putPitToOpponentKalah(){
+    public void notPutPitToOpponentKalah() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(3, 4, 4, 4, 4, 12)
                 .player1Kalah(5)
@@ -160,7 +159,7 @@ public class GameTests {
     }
 
     @Test
-    public void player1OwnOpponentStones(){
+    public void player1OwnOpponentStones() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 1, 0, 4, 1, 1)
                 .player1Kalah(20)
@@ -184,7 +183,7 @@ public class GameTests {
     }
 
     @Test
-    public void player1TakesAdditionalMove(){
+    public void player1TakesAdditionalMove() {
         Game game = Game.newGame();
         game.makeMove(0);
 
@@ -201,7 +200,7 @@ public class GameTests {
     }
 
     @Test
-    public void player1Win(){
+    public void player1Win() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 0, 0, 0, 1, 0)
                 .player1Kalah(31)
@@ -225,7 +224,7 @@ public class GameTests {
     }
 
     @Test
-    public void player2Win(){
+    public void player2Win() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(2, 8, 5, 5, 5, 5)
                 .player1Kalah(10)
@@ -249,7 +248,55 @@ public class GameTests {
     }
 
     @Test
-    public void standoffAfterPlayer1Move(){
+    public void player1WinWithHalfStonesInKalahWhenAllPitsAreEmpty() {
+        GameState state = new GameStateBuilder(6)
+                .player1Pits(0, 0, 0, 0, 1, 0)
+                .player1Kalah(31)
+                .player2Pits(2, 8, 5, 5, 5, 5)
+                .player2Kalah(10)
+                .status(GameStatus.PlAYER1_TURN);
+
+        Game game = Game.fromState(state);
+        game.makeMove(4);
+
+        GameState expected = new GameStateBuilder(6)
+                .player1Pits(0, 0, 0, 0, 0, 0)
+                .player1Kalah(40)
+                .player2Pits(0, 0, 0, 0, 0, 0)
+                .player2Kalah(32)
+                .status(GameStatus.PLAYER1_WIN);
+
+        GameState actual = game.getState();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void Player1WinWithHalfStonesInKalah() {
+        GameState state = new GameStateBuilder(6)
+                .player1Pits(0, 1, 1, 2, 4, 1)
+                .player1Kalah(36)
+                .player2Pits(5, 5, 5, 5, 3, 3)
+                .player2Kalah(1)
+                .status(GameStatus.PlAYER1_TURN);
+
+        Game game = Game.fromState(state);
+        game.makeMove(4);
+
+        GameState expected = new GameStateBuilder(6)
+                .player1Pits(0, 1, 1, 2, 0, 2)
+                .player1Kalah(37)
+                .player2Pits(6, 6, 5, 5, 3, 3)
+                .player2Kalah(1)
+                .status(GameStatus.PLAYER1_WIN);
+
+        GameState actual = game.getState();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void standoffAfterPlayer1Move() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 0, 0, 0, 0, 1)
                 .player1Kalah(35)
@@ -271,6 +318,4 @@ public class GameTests {
 
         assertEquals(expected, actual);
     }
-
-
 }

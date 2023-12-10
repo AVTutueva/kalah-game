@@ -56,7 +56,8 @@ public class GameStateBuilder {
     }
 
     private void validateStones(int... stones) {
-        if (stones.length != Game.PINTS_PER_PLAYER) throw new IllegalArgumentException("Stones size must fit game size");
+        if (stones.length != Game.PINTS_PER_PLAYER)
+            throw new IllegalArgumentException("Stones size must fit game size");
         for (int stone : stones) {
             if (stone < 0 || stone > 2 * Game.PINTS_PER_PLAYER * initStonesPerPit)
                 throw new IllegalStateException("Stones number is invalid");
