@@ -1,5 +1,6 @@
 package com.atutueva.kalah.model;
 
+import com.atutueva.kalah.exception.GameException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ public class GameTests {
         Game game = Game.newGame();
         int inputPitIndex = 6;
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(GameException.class, () -> {
             game.makeMove(inputPitIndex);
         });
     }
@@ -37,7 +38,7 @@ public class GameTests {
         Game game = Game.newGame();
         int inputPitIndex = -1;
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(GameException.class, () -> {
             game.makeMove(inputPitIndex);
         });
     }
@@ -54,7 +55,7 @@ public class GameTests {
 
         Game game = Game.fromState(state);
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(GameException.class, () -> {
             game.makeMove(0);
         });
     }
@@ -70,11 +71,10 @@ public class GameTests {
 
         Game game = Game.fromState(state);
 
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(GameException.class, () -> {
             game.makeMove(0);
         });
     }
-
 
     @Test
     public void move6StonesFromSecondPit() {

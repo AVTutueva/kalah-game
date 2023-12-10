@@ -1,5 +1,6 @@
 package com.atutueva.kalah.model;
 
+import com.atutueva.kalah.exception.GameException;
 import com.atutueva.kalah.utils.Utils;
 
 import java.util.Arrays;
@@ -15,12 +16,6 @@ public class Game {
         initPlayerData(state.getPlayer1Board(), 0);
         initPlayerData(state.getPlayer2Board(), 1);
         status = state.getStatus();
-    }
-
-    private void initPlayerData(PlayerBoard playerBoard, int index) {
-        int[] playerPits = playerBoard.getPits();
-        board[index] = Arrays.copyOf(playerPits, playerPits.length + 1);
-        board[index][PINTS_PER_PLAYER] = playerBoard.getKalah();
     }
 
     public static Game fromState(GameState state) {
@@ -44,11 +39,25 @@ public class Game {
         return new Game(state);
     }
 
+    private void initPlayerData(PlayerBoard playerBoard, int index) {
+        Pit[] playerPits = playerBoard.getPits();
+        int[] boardRow = new int[playerPits.length + 1];
+
+        for (int i = 0; i < playerPits.length; i++) {
+            boardRow[i] = playerPits[i].getValue();
+        }
+
+        boardRow[PINTS_PER_PLAYER] = playerBoard.getKalah();
+        board[index] = boardRow;
+    }
+
     public GameState makeMove(int pitIndex) {
         if (status == GameStatus.PLAYER1_WIN || status == GameStatus.PLAYER2_WIN || status == GameStatus.STANDOFF)
-            throw new IllegalStateException("Game is already over");
+            throw new GameException("Game is already over");
 
-        if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) throw new IllegalArgumentException("Pit Index is invalid");
+        if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) {
+            throw new GameException("Pit Index " + pitIndex + " is invalid. Pit index should be in range [0, " + (PINTS_PER_PLAYER - 1) + "]");
+        }
 
         int initPlayer = getPlayerIndex();
 
@@ -57,7 +66,7 @@ public class Game {
 
         int stonesToMove = currentBoard[pitIndex];
         if (stonesToMove == 0)
-            throw new IllegalArgumentException("Invalid move. Stones to move number should be than zero");
+            throw new GameException("Invalid move with index=" + pitIndex + ". Stones to move number should be greater than zero");
 
         // take off stones from pit
         currentBoard[pitIndex] = 0;
@@ -82,12 +91,11 @@ public class Game {
             }
         }
 
-
         // own opponent stones
         boolean isKalah = i == PINTS_PER_PLAYER;
 
-        int[] opponentBoard = board[(initPlayer + 1) % 2];
         if (!isKalah) {
+            int[] opponentBoard = board[(initPlayer + 1) % 2];
             int opponentStones = opponentBoard[PINTS_PER_PLAYER - i];
 
             boolean isInitSide = currPlayer == initPlayer;
@@ -144,7 +152,7 @@ public class Game {
                 return 1;
             }
             default -> {
-                throw new IllegalArgumentException("Game is over");
+                throw new GameException("Game is already over");
             }
         }
     }

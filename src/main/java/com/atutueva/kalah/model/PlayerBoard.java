@@ -4,15 +4,18 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class PlayerBoard {
-    private int[] pits;
+    private Pit[] pits;
     private int kalah;
 
     public PlayerBoard(int[] pits, int kalah) {
-        this.pits = Arrays.copyOf(pits, pits.length);
+        this.pits = new Pit[pits.length];
+        for (int i = 0; i < pits.length; i++) {
+            this.pits[i] = new Pit(i, pits[i]);
+        }
         this.kalah = kalah;
     }
 
-    public int[] getPits() {
+    public Pit[] getPits() {
         return this.pits = Arrays.copyOf(pits, pits.length);
     }
 
