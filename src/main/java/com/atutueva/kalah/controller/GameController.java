@@ -26,4 +26,9 @@ public class GameController {
     public ResponseEntity<GameResponse> makeMove(@PathVariable UUID gameId, @RequestParam int pitIndex) {
         return ResponseEntity.status(HttpStatus.OK).body(gameService.makeMove(gameId, pitIndex));
     }
+
+    @GetMapping("/{gameId}")
+    public ResponseEntity<GameResponse> getById(@PathVariable UUID gameId) {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getById(gameId));
+    }
 }

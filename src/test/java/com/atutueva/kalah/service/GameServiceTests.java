@@ -5,6 +5,7 @@ import com.atutueva.kalah.exception.GameException;
 import com.atutueva.kalah.model.GameState;
 import com.atutueva.kalah.model.GameStateBuilder;
 import com.atutueva.kalah.model.GameStatus;
+import com.atutueva.kalah.repository.GameRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,9 @@ public class GameServiceTests {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private GameRepository gameRepository;
+
     @Test
     public void createGame() {
         GameResponse newGame = gameService.createGame();
@@ -34,14 +38,27 @@ public class GameServiceTests {
 
         GameResponse expected = new GameResponse(newGame.getId(), expectedInitState);
 
-        assertEquals(gameService.getAllGames().size(), 1);
+        assert (gameRepository.getById(newGame.getId()) != null);
         assertEquals(newGame, expected);
     }
 
     @Test
-    public void makeMoveWithInvalidGameId() {
+    public void throwExceptionWhenMakeMoveForInvalidGameId() {
         assertThrows(GameException.class, () -> {
             gameService.makeMove(UUID.randomUUID(), 4);
+        });
+    }
+
+    @Test
+    public void getById() {
+        GameResponse newGame = gameService.createGame();
+        assert (gameRepository.getById(newGame.getId()) != null);
+    }
+
+    @Test
+    public void throwExceptionWhenGetByIdForInvalidGameId() {
+        assertThrows(GameException.class, () -> {
+            gameService.getById(UUID.randomUUID());
         });
     }
 }
