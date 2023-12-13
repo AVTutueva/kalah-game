@@ -16,7 +16,7 @@ public class GameTests {
                 .player1Kalah(0)
                 .player2Pits(6, 6, 6, 6, 6, 6)
                 .player2Kalah(0)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         GameState actual = game.getState();
 
@@ -50,7 +50,7 @@ public class GameTests {
                 .player1Kalah(20)
                 .player2Pits(2, 1, 1, 1, 5, 5)
                 .player2Kalah(30)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
 
         Game game = Game.fromState(state);
@@ -86,7 +86,7 @@ public class GameTests {
                 .player1Kalah(1)
                 .player2Pits(7, 6, 6, 6, 6, 6)
                 .player2Kalah(0)
-                .status(GameStatus.PlAYER2_TURN);
+                .status(GameStatus.PLAYER2_TURN);
 
         GameState actual = game.getState();
 
@@ -103,7 +103,7 @@ public class GameTests {
                 .player1Kalah(1)
                 .player2Pits(7, 7, 7, 7, 7, 6)
                 .player2Kalah(0)
-                .status(GameStatus.PlAYER2_TURN);
+                .status(GameStatus.PLAYER2_TURN);
 
         GameState actual = game.getState();
 
@@ -117,7 +117,7 @@ public class GameTests {
                 .player1Kalah(1)
                 .player2Pits(6, 4, 10, 5, 5, 5)
                 .player2Kalah(5)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(5);
@@ -129,7 +129,7 @@ public class GameTests {
                 .player1Kalah(3)
                 .player2Pits(8, 6, 12, 7, 7, 7)
                 .player2Kalah(5)
-                .status(GameStatus.PlAYER2_TURN);
+                .status(GameStatus.PLAYER2_TURN);
 
         assertEquals(expected, actual);
     }
@@ -141,7 +141,7 @@ public class GameTests {
                 .player1Kalah(5)
                 .player2Pits(1, 1, 1, 1, 1, 1)
                 .player2Kalah(30)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
 
@@ -153,7 +153,7 @@ public class GameTests {
                 .player1Kalah(6)
                 .player2Pits(2, 2, 2, 2, 2, 2)
                 .player2Kalah(30)
-                .status(GameStatus.PlAYER2_TURN);
+                .status(GameStatus.PLAYER2_TURN);
 
         assertEquals(expected, actual);
     }
@@ -165,7 +165,7 @@ public class GameTests {
                 .player1Kalah(20)
                 .player2Pits(2, 1, 1, 1, 5, 5)
                 .player2Kalah(30)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(1);
@@ -177,7 +177,7 @@ public class GameTests {
                 .player1Kalah(26)
                 .player2Pits(2, 1, 1, 1, 0, 5)
                 .player2Kalah(30)
-                .status(GameStatus.PlAYER2_TURN);
+                .status(GameStatus.PLAYER2_TURN);
 
         assertEquals(expected, actual);
     }
@@ -192,7 +192,7 @@ public class GameTests {
                 .player1Kalah(1)
                 .player2Pits(6, 6, 6, 6, 6, 6)
                 .player2Kalah(0)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         GameState actual = game.getState();
 
@@ -206,7 +206,7 @@ public class GameTests {
                 .player1Kalah(31)
                 .player2Pits(2, 8, 5, 5, 5, 5)
                 .player2Kalah(10)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(4);
@@ -230,7 +230,7 @@ public class GameTests {
                 .player1Kalah(10)
                 .player2Pits(0, 0, 0, 0, 1, 0)
                 .player2Kalah(31)
-                .status(GameStatus.PlAYER2_TURN);
+                .status(GameStatus.PLAYER2_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(4);
@@ -254,7 +254,7 @@ public class GameTests {
                 .player1Kalah(31)
                 .player2Pits(2, 8, 5, 5, 5, 5)
                 .player2Kalah(10)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(4);
@@ -278,7 +278,7 @@ public class GameTests {
                 .player1Kalah(36)
                 .player2Pits(5, 5, 5, 5, 3, 3)
                 .player2Kalah(1)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(4);
@@ -302,7 +302,7 @@ public class GameTests {
                 .player1Kalah(35)
                 .player2Pits(3, 3, 3, 1, 1, 5)
                 .player2Kalah(20)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         Game game = Game.fromState(state);
         game.makeMove(5);

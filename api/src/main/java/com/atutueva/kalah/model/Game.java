@@ -34,7 +34,7 @@ public class Game {
                 .player1Kalah(0)
                 .player2Pits(player2Stones)
                 .player2Kalah(0)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         return new Game(state);
     }
@@ -107,7 +107,7 @@ public class Game {
                 opponentBoard[PINTS_PER_PLAYER - i] = 0;
             }
 
-            status = (status == GameStatus.PlAYER1_TURN) ? GameStatus.PlAYER2_TURN : GameStatus.PlAYER1_TURN;
+            status = (status == GameStatus.PLAYER1_TURN) ? GameStatus.PLAYER2_TURN : GameStatus.PLAYER1_TURN;
         }
 
         gameIsOverCheck(initPlayer);
@@ -145,10 +145,10 @@ public class Game {
 
     private int getPlayerIndex() {
         switch (status) {
-            case PlAYER1_TURN -> {
+            case PLAYER1_TURN -> {
                 return 0;
             }
-            case PlAYER2_TURN -> {
+            case PLAYER2_TURN -> {
                 return 1;
             }
             default -> {

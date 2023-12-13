@@ -34,7 +34,7 @@ public class GameServiceTests {
                 .player1Kalah(0)
                 .player2Pits(6, 6, 6, 6, 6, 6)
                 .player2Kalah(0)
-                .status(GameStatus.PlAYER1_TURN);
+                .status(GameStatus.PLAYER1_TURN);
 
         GameResponse expected = new GameResponse(newGame.getId(), expectedInitState);
 
