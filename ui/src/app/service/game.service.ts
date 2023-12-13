@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Game } from './game';
+import { Game } from '../model/game';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -9,11 +9,12 @@ import { tap } from 'rxjs/operators';
 })
 export class GameService {
   private baseApiUrl = 'http://localhost:8080/v1/api';
+
   private gameSubject = new BehaviorSubject<Game | null>(null);
   game$ = this.gameSubject.asObservable();
 
-  private disableButtonsSubject = new BehaviorSubject<boolean>(false);
-  disableButtons$ = this.disableButtonsSubject.asObservable();
+  private isGameInProgressSubject = new BehaviorSubject<boolean>(false);
+  isGameInProgrees$ = this.isGameInProgressSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -30,13 +31,13 @@ export class GameService {
   }
 
   public makeMove(gameId: string, pitIndex: number): Observable<Game> {
-    this.disableButtonsSubject.next(true);
+    this.isGameInProgressSubject.next(true);
     return this.http
       .put<Game>(`${this.baseApiUrl}/game/${gameId}?pitIndex=${pitIndex}`, {})
       .pipe(
         tap((updatedGame: Game) => {
           this.updateGameState(updatedGame);
-          this.disableButtonsSubject.next(false);
+          this.isGameInProgressSubject.next(false);
         })
       );
   }

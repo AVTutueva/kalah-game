@@ -3,9 +3,7 @@
   Kalah: {{ game.state.player2Board.kalah }}
   <app-pit
     *ngFor="let pit of game.state.player2Board.pits.reverse()"
-    [disableButton]="
-      disableButtons || pit.value === 0 || game.state.status != 'PlAYER2_TURN'
-    "
+    [disableButton]="shouldDisableButton(pit.value)"
     [value]="pit.value"
     (pitClicked)="makeMove(pit.index)"
   ></app-pit>

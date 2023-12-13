@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { GameService } from '../game.service';
-import { Game } from '../game';
+import { GameService } from '../service/game.service';
+import { Game } from '../model/game';
+import { GameStatus } from '../model/gameStatus';
 
 @Component({
   selector: 'app-player1-board',
@@ -14,7 +15,7 @@ export class Player1BoardComponent {
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    this.gameService.disableButtons$.subscribe((disableButtons) => {
+    this.gameService.isGameInProgrees$.subscribe((disableButtons) => {
       this.disableButtons = disableButtons;
     });
   }
@@ -27,5 +28,13 @@ export class Player1BoardComponent {
         console.log(updatedGame);
         this.game = updatedGame;
       });
+  }
+
+  shouldDisableButton(pitValue: number): boolean {
+    return (
+      this.disableButtons ||
+      pitValue === 0 ||
+      this.game.state.status !== GameStatus.PLAYER1_TURN
+    );
   }
 }

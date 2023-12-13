@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { GameService } from '../game.service';
+import { GameService } from '../service/game.service';
 
 @Component({
   selector: 'app-pit',
