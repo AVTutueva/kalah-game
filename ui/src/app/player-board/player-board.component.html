@@ -1,0 +1,21 @@
+<div>
+  <h3>Player {{ playerIndex }} Board</h3>
+  <div *ngIf="playerIndex === 1; else kalahRight">
+    <app-pit
+      *ngFor="let pit of getOrderedList()"
+      [value]="pit.value"
+      [disableButton]="shouldDisableButton(pit.value)"
+      (pitClicked)="makeMove(pit.index)"
+    ></app-pit>
+    Kalah: {{ getKalahValue() }}
+  </div>
+  <ng-template #kalahRight>
+    Kalah: {{ getKalahValue() }}
+    <app-pit
+      *ngFor="let pit of getOrderedList()"
+      [value]="pit.value"
+      [disableButton]="shouldDisableButton(pit.value)"
+      (pitClicked)="makeMove(pit.index)"
+    ></app-pit>
+  </ng-template>
+</div>

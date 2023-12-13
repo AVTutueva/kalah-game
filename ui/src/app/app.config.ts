@@ -5,16 +5,10 @@ import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PitComponent } from './pit/pit.component';
-import { Player1BoardComponent } from './player1-board/player1-board.component';
-import { Player2BoardComponent } from './player2-board/player2-board.component';
+import { PlayerBoardComponent } from './player-board/player-board.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PitComponent,
-    Player1BoardComponent,
-    Player2BoardComponent,
-  ],
+  declarations: [AppComponent, PitComponent, PlayerBoardComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

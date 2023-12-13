@@ -6,10 +6,8 @@
   <h2>Game Board</h2>
 
   <p>Status: {{ game.state.status }}</p>
-
-  <app-player2-board [game]="game"></app-player2-board>
-
-  <app-player1-board [game]="game"></app-player1-board>
+  <app-player-board [game]="game" [playerIndex]="2"></app-player-board>
+  <app-player-board [game]="game" [playerIndex]="1"></app-player-board>
 </div>
 <br />
 
