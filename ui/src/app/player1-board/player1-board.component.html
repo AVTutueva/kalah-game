@@ -1,0 +1,12 @@
+<div>
+  <h3>Player 1 Board</h3>
+  <app-pit
+    *ngFor="let pit of game.state.player1Board.pits"
+    [value]="pit.value"
+    [disableButton]="
+      disableButtons || pit.value === 0 || game.state.status != 'PlAYER1_TURN'
+    "
+    (pitClicked)="makeMove(pit.index)"
+  ></app-pit>
+  Kalah: {{ game.state.player1Board.kalah }}
+</div>

@@ -1,0 +1,23 @@
+<h1>Kalah Game</h1>
+<button
+  (click)="createNewGame()"
+  [disabled]="
+    game?.state?.status === 'PlAYER1_TURN' ||
+    game?.state?.status === 'PlAYER2_TURN'
+  "
+>
+  Create New Game
+</button>
+<div *ngIf="game">
+  <h2>Game State</h2>
+  <p>ID: {{ game.id }}</p>
+
+  <p>Status: {{ game.state.status }}</p>
+
+  <app-player2-board [game]="game"></app-player2-board>
+
+  <app-player1-board [game]="game"></app-player1-board>
+</div>
+<br />
+
+<router-outlet></router-outlet>
