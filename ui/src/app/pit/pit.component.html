@@ -1,1 +1,7 @@
-<button [disabled]="disableButton" (click)="onPitClick()">{{ value }}</button>
+<button
+  class="pit-button board-button"
+  [disabled]="disableButton"
+  (click)="onPitClick()"
+>
+  {{ value }}
+</button>

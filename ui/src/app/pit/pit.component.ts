@@ -4,7 +4,6 @@ import { GameService } from '../service/game.service';
 @Component({
   selector: 'app-pit',
   templateUrl: './pit.component.html',
-  styleUrl: './pit.component.css',
 })
 export class PitComponent {
   @Input() value!: number;

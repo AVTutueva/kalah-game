@@ -6,18 +6,17 @@ import { GameService } from '../service/game.service';
 @Component({
   selector: 'app-player-board',
   templateUrl: './player-board.component.html',
-  styleUrl: './player-board.component.css',
 })
 export class PlayerBoardComponent {
   @Input() game!: Game;
   @Input() playerIndex!: number;
-  disableButtons = false;
+  isBoardDisabled = false;
 
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
     this.gameService.isGameInProgrees$.subscribe((disableButtons) => {
-      this.disableButtons = disableButtons;
+      this.isBoardDisabled = disableButtons;
     });
   }
 
@@ -31,27 +30,25 @@ export class PlayerBoardComponent {
       });
   }
 
-  shouldDisableButton(pitValue: number): boolean {
-    return this.disableButtons || pitValue === 0 || this.isPlayerTurn();
+  disableBoard(pitValue: number): boolean {
+    return this.isBoardDisabled || pitValue === 0 || this.isPlayerTurn();
   }
 
   isPlayerTurn(): boolean {
-    if (this.playerIndex === 1) {
-      return this.game.state.status !== GameStatus.PLAYER1_TURN;
-    } else return this.game.state.status !== GameStatus.PLAYER2_TURN;
+    const currentPlayerStatus =
+      this.playerIndex === 1
+        ? this.game.state.status !== GameStatus.PLAYER1_TURN
+        : this.game.state.status !== GameStatus.PLAYER2_TURN;
+
+    return currentPlayerStatus;
   }
 
   getOrderedList(): any[] {
-    if (this.playerIndex === 1) {
-      return this.game.state.player1Board.pits;
-    } else {
-      return this.game.state.player2Board.pits.slice().reverse();
-    }
-  }
+    const pits =
+      this.playerIndex === 1
+        ? this.game.state.player1Board.pits
+        : this.game.state.player2Board.pits.slice().reverse();
 
-  getKalahValue(): number {
-    return this.playerIndex === 1
-      ? this.game.state.player1Board.kalah
-      : this.game.state.player2Board.kalah;
+    return pits;
   }
 }

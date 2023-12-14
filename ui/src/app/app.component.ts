@@ -27,4 +27,10 @@ export class AppComponent implements OnInit {
     this.isGameInProgress = true;
     this.gameService.createGame().subscribe();
   }
+
+  formatGameStatus(): string {
+    return this.game?.state?.status
+      ? this.game.state.status.replace(/_/g, ' ')
+      : '';
+  }
 }
