@@ -43,7 +43,7 @@ public class GameStateBuilder {
     }
 
     private GameState build() {
-        int totalStones = Utils.arraySum(pits1, pits1.length) + Utils.arraySum(pits2, pits2.length) + kalah1 + kalah2;
+        int totalStones = Utils.subArraySum(pits1, pits1.length) + Utils.subArraySum(pits2, pits2.length) + kalah1 + kalah2;
         int requiredStones = 2 * Game.PINTS_PER_PLAYER * initStonesPerPit;
         if (totalStones != requiredStones) {
             throw new IllegalStateException("Total stones number in game " + totalStones + " is invalid. Required number is " + requiredStones);

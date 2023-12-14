@@ -15,10 +15,6 @@ public class ExceptionResponse {
         this.timestamp = LocalDateTime.now();
     }
 
-    public static ExceptionResponse of(final String message, HttpStatus status) {
-        return new ExceptionResponse(message, status);
-    }
-
     public String getMessage() {
         return message;
     }
@@ -29,5 +25,9 @@ public class ExceptionResponse {
 
     public HttpStatus getStatus() {
         return status;
+    }
+
+    public static ExceptionResponse of(final String message, HttpStatus status) {
+        return new ExceptionResponse(message, status);
     }
 }

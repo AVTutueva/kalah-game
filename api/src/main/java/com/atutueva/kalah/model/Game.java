@@ -98,10 +98,10 @@ public class Game {
             int[] opponentBoard = board[(initPlayer + 1) % 2];
             int opponentStones = opponentBoard[PINTS_PER_PLAYER - i];
 
-            boolean isInitSide = currPlayer == initPlayer;
+            boolean isInitPlayer = currPlayer == initPlayer;
             boolean oneStoneInLastPit = currentBoard[i] == 1;
 
-            if (oneStoneInLastPit && isInitSide && opponentStones != 0) {
+            if (oneStoneInLastPit && isInitPlayer && opponentStones != 0) {
                 currentBoard[PINTS_PER_PLAYER] += opponentStones + 1;
                 currentBoard[i] = 0;
                 opponentBoard[PINTS_PER_PLAYER - i] = 0;
@@ -110,27 +110,26 @@ public class Game {
             status = (status == GameStatus.PLAYER1_TURN) ? GameStatus.PLAYER2_TURN : GameStatus.PLAYER1_TURN;
         }
 
-        gameIsOverCheck(initPlayer);
+        isOverCheck(initPlayer);
 
         return getState();
     }
 
-    private void gameIsOverCheck(int initPlayer) {
-        int[] currentBoard = board[initPlayer];
-        int[] opponentBoard = board[(initPlayer + 1) % 2];
+    private void isOverCheck(int initPlayerIndex) {
+        int[] currentBoard = board[initPlayerIndex];
+        int[] opponentBoard = board[(initPlayerIndex + 1) % 2];
 
         int halfOfTotalStones = PINTS_PER_PLAYER * INIT_STONES_PER_PIT;
 
-        int currentPlayerPitsStones = Utils.arraySum(currentBoard, currentBoard.length - 1);
-        int opponentPitsStones = Utils.arraySum(opponentBoard, opponentBoard.length - 1);
+        int currentPlayerPitsStones = Utils.subArraySum(currentBoard, currentBoard.length - 1);
+        int opponentPitsStones = Utils.subArraySum(opponentBoard, opponentBoard.length - 1);
 
         if (currentPlayerPitsStones == 0 || opponentPitsStones == 0) {
             currentBoard[PINTS_PER_PLAYER] += currentPlayerPitsStones;
             opponentBoard[PINTS_PER_PLAYER] += opponentPitsStones;
-            for (int j = 0; j < PINTS_PER_PLAYER; j++) {
-                currentBoard[j] = 0;
-                opponentBoard[j] = 0;
-            }
+
+            resetPits(currentBoard);
+            resetPits(opponentBoard);
         }
 
         boolean bothHaveEqualStones = currentBoard[PINTS_PER_PLAYER] == opponentBoard[PINTS_PER_PLAYER];
@@ -138,13 +137,18 @@ public class Game {
             status = GameStatus.STANDOFF;
         }
         if (currentBoard[PINTS_PER_PLAYER] > halfOfTotalStones) {
-            status = (initPlayer == 0) ? GameStatus.PLAYER1_WIN : GameStatus.PLAYER2_WIN;
+            status = (initPlayerIndex == 0) ? GameStatus.PLAYER1_WIN : GameStatus.PLAYER2_WIN;
         }
         if (opponentBoard[PINTS_PER_PLAYER] > halfOfTotalStones) {
-            status = (initPlayer == 0) ? GameStatus.PLAYER2_WIN : GameStatus.PLAYER1_WIN;
+            status = (initPlayerIndex == 0) ? GameStatus.PLAYER2_WIN : GameStatus.PLAYER1_WIN;
         }
     }
 
+    private void resetPits(int[] board) {
+        for (int j = 0; j < PINTS_PER_PLAYER; j++) {
+            board[j] = 0;
+        }
+    }
 
     private int getPlayerIndex() {
         switch (status) {

@@ -1,6 +1,7 @@
 package com.atutueva.kalah.controller;
 
 import com.atutueva.kalah.dto.GameResponse;
+import com.atutueva.kalah.model.GameStatus;
 import com.atutueva.kalah.service.GameService;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class GameControllerTests {
                 .andExpect(jsonPath("$.id").isNotEmpty())
 
                 // Player 1's next turn
-                .andExpect(jsonPath("$.state.status").value("PlAYER1_TURN"))
+                .andExpect(jsonPath("$.state.status").value(GameStatus.PLAYER1_TURN.toString()))
 
                 // player1 Board
                 .andExpect(jsonPath("$.state.player1Board.pits[0].index").value(0))
@@ -98,7 +99,7 @@ class GameControllerTests {
                 .andExpect(jsonPath("$.id").isNotEmpty())
 
                 // Player 1's next turn
-                .andExpect(jsonPath("$.state.status").value("PlAYER1_TURN"))
+                .andExpect(jsonPath("$.state.status").value(GameStatus.PLAYER1_TURN.toString()))
 
                 // player1 Board
                 .andExpect(jsonPath("$.state.player1Board.pits[0].index").value(0))
@@ -148,7 +149,7 @@ class GameControllerTests {
                 .andExpect(jsonPath("$.id").isNotEmpty())
 
                 // Player 2's next turn
-                .andExpect(jsonPath("$.state.status").value("PlAYER2_TURN"))
+                .andExpect(jsonPath("$.state.status").value(GameStatus.PLAYER2_TURN.toString()))
 
                 // player1 Board
                 .andExpect(jsonPath("$.state.player1Board.pits[0].index").value(0))

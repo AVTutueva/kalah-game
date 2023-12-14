@@ -16,6 +16,14 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
+    public GameResponse getById(UUID id) {
+        Game game = gameRepository.getById(id);
+        if (game == null) {
+            throw new GameException("Game wit id=" + id + " Not Found");
+        }
+        return new GameResponse(id, game.getState());
+    }
+
     public GameResponse createGame() {
         Game game = Game.newGame();
         UUID gameId = gameRepository.save(game);
@@ -28,14 +36,6 @@ public class GameService {
             throw new GameException("Game wit id=" + id + " Not Found");
         }
         game.makeMove(pitIndex);
-        return new GameResponse(id, game.getState());
-    }
-
-    public GameResponse getById(UUID id) {
-        Game game = gameRepository.getById(id);
-        if (game == null) {
-            throw new GameException("Game wit id=" + id + " Not Found");
-        }
         return new GameResponse(id, game.getState());
     }
 }

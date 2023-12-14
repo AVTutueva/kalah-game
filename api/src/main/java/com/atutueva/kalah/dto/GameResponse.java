@@ -24,6 +24,14 @@ public class GameResponse {
         return state;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,13 +51,5 @@ public class GameResponse {
                 "id=" + id +
                 ", state=" + state +
                 '}';
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setState(GameState state) {
-        this.state = state;
     }
 }
