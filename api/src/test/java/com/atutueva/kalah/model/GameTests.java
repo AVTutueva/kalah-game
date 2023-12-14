@@ -318,4 +318,28 @@ public class GameTests {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void player1WinAfterOpponentStep() {
+        GameState state = new GameStateBuilder(6)
+                .player1Pits(11, 5, 7, 0, 0, 1)
+                .player1Kalah(36)
+                .player2Pits(1, 0, 0, 0, 0, 0)
+                .player2Kalah(11)
+                .status(GameStatus.PLAYER2_TURN);
+
+        Game game = Game.fromState(state);
+        game.makeMove(0);
+
+        GameState expected = new GameStateBuilder(6)
+                .player1Pits(0, 0, 0, 0, 0, 0)
+                .player1Kalah(59)
+                .player2Pits(0, 0, 0, 0, 0, 0)
+                .player2Kalah(13)
+                .status(GameStatus.PLAYER1_WIN);
+
+        GameState actual = game.getState();
+
+        assertEquals(expected, actual);
+    }
 }

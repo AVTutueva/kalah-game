@@ -140,6 +140,9 @@ public class Game {
         if (currentBoard[PINTS_PER_PLAYER] > halfOfTotalStones) {
             status = (initPlayer == 0) ? GameStatus.PLAYER1_WIN : GameStatus.PLAYER2_WIN;
         }
+        if (opponentBoard[PINTS_PER_PLAYER] > halfOfTotalStones) {
+            status = (initPlayer == 0) ? GameStatus.PLAYER2_WIN : GameStatus.PLAYER1_WIN;
+        }
     }
 
 
