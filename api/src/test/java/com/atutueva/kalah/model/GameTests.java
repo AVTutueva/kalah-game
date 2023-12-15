@@ -312,7 +312,7 @@ public class GameTests {
                 .player1Kalah(36)
                 .player2Pits(0, 0, 0, 0, 0, 0)
                 .player2Kalah(36)
-                .status(GameStatus.STANDOFF);
+                .status(GameStatus.DRAW);
 
         GameState actual = game.getState();
 

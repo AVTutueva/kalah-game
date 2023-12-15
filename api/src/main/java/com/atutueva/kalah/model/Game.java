@@ -58,7 +58,7 @@ public class Game {
     public GameState makeMove(int pitIndex) {
         try {
             lock.writeLock().lock();
-            if (status == GameStatus.PLAYER1_WIN || status == GameStatus.PLAYER2_WIN || status == GameStatus.STANDOFF)
+            if (status == GameStatus.PLAYER1_WIN || status == GameStatus.PLAYER2_WIN || status == GameStatus.DRAW)
                 throw new GameException("Game is already over");
 
             if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) {
@@ -142,7 +142,7 @@ public class Game {
 
         boolean bothHaveEqualStones = currentBoard[PINTS_PER_PLAYER] == opponentBoard[PINTS_PER_PLAYER];
         if (bothHaveEqualStones && currentBoard[PINTS_PER_PLAYER] == halfOfTotalStones) {
-            status = GameStatus.STANDOFF;
+            status = GameStatus.DRAW;
         }
         if (currentBoard[PINTS_PER_PLAYER] > halfOfTotalStones) {
             status = (initPlayerIndex == 0) ? GameStatus.PLAYER1_WIN : GameStatus.PLAYER2_WIN;
