@@ -4,12 +4,16 @@ import com.atutueva.kalah.exception.GameException;
 import com.atutueva.kalah.utils.Utils;
 
 import java.util.Arrays;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Game {
     private final int[][] board;
     private GameStatus status;
     public static final int PINTS_PER_PLAYER = 6;
     private static final int INIT_STONES_PER_PIT = 6;
+
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     private Game(GameState state) {
         board = new int[2][PINTS_PER_PLAYER + 1];
@@ -52,67 +56,71 @@ public class Game {
     }
 
     public GameState makeMove(int pitIndex) {
-        if (status == GameStatus.PLAYER1_WIN || status == GameStatus.PLAYER2_WIN || status == GameStatus.STANDOFF)
-            throw new GameException("Game is already over");
+        try {
+            lock.writeLock().lock();
+            if (status == GameStatus.PLAYER1_WIN || status == GameStatus.PLAYER2_WIN || status == GameStatus.STANDOFF)
+                throw new GameException("Game is already over");
 
-        if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) {
-            throw new GameException("Pit Index " + pitIndex + " is invalid. Pit index should be in range [0, " + (PINTS_PER_PLAYER - 1) + "]");
-        }
-
-        int initPlayer = getPlayerIndex();
-
-        int currPlayer = initPlayer;
-        int[] currentBoard = board[currPlayer];
-
-        int stonesToMove = currentBoard[pitIndex];
-        if (stonesToMove == 0)
-            throw new GameException("Invalid move with index=" + pitIndex + ". Stones to move number should be greater than zero");
-
-        // take off stones from pit
-        currentBoard[pitIndex] = 0;
-        int i = pitIndex + 1;
-
-        // move stones
-        while (stonesToMove > 0) {
-            // skip opponent kalah
-            if (!(currPlayer != initPlayer && i == PINTS_PER_PLAYER)) {
-                currentBoard[i]++;
-                stonesToMove--;
+            if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) {
+                throw new GameException("Pit Index " + pitIndex + " is invalid. Pit index should be in range [0, " + (PINTS_PER_PLAYER - 1) + "]");
             }
 
-            if (stonesToMove == 0) break;
+            int initPlayer = getPlayerIndex();
 
-            if (i == PINTS_PER_PLAYER) {
-                i = 0;
-                currPlayer = (currPlayer + 1) % 2;
-                currentBoard = board[currPlayer];
-            } else {
-                i++;
+            int currPlayer = initPlayer;
+            int[] currentBoard = board[currPlayer];
+
+            int stonesToMove = currentBoard[pitIndex];
+            if (stonesToMove == 0)
+                throw new GameException("Invalid move with index=" + pitIndex + ". Stones to move number should be greater than zero");
+
+            // take off stones from pit
+            currentBoard[pitIndex] = 0;
+            int i = pitIndex + 1;
+
+            // move stones
+            while (stonesToMove > 0) {
+                // skip opponent kalah
+                if (!(currPlayer != initPlayer && i == PINTS_PER_PLAYER)) {
+                    currentBoard[i]++;
+                    stonesToMove--;
+                }
+
+                if (stonesToMove == 0) break;
+
+                if (i == PINTS_PER_PLAYER) {
+                    i = 0;
+                    currPlayer = (currPlayer + 1) % 2;
+                    currentBoard = board[currPlayer];
+                } else {
+                    i++;
+                }
             }
-        }
 
-        // own opponent stones
-        boolean isKalah = i == PINTS_PER_PLAYER;
+            // own opponent stones
+            boolean isKalah = i == PINTS_PER_PLAYER;
 
-        if (!isKalah) {
-            int[] opponentBoard = board[(initPlayer + 1) % 2];
-            int opponentStones = opponentBoard[PINTS_PER_PLAYER - i];
+            if (!isKalah) {
+                int[] opponentBoard = board[(initPlayer + 1) % 2];
+                int opponentStones = opponentBoard[PINTS_PER_PLAYER - i];
 
-            boolean isInitPlayer = currPlayer == initPlayer;
-            boolean oneStoneInLastPit = currentBoard[i] == 1;
+                boolean isInitPlayer = currPlayer == initPlayer;
+                boolean oneStoneInLastPit = currentBoard[i] == 1;
 
-            if (oneStoneInLastPit && isInitPlayer && opponentStones != 0) {
-                currentBoard[PINTS_PER_PLAYER] += opponentStones + 1;
-                currentBoard[i] = 0;
-                opponentBoard[PINTS_PER_PLAYER - i] = 0;
+                if (oneStoneInLastPit && isInitPlayer && opponentStones != 0) {
+                    currentBoard[PINTS_PER_PLAYER] += opponentStones + 1;
+                    currentBoard[i] = 0;
+                    opponentBoard[PINTS_PER_PLAYER - i] = 0;
+                }
+
+                status = (status == GameStatus.PLAYER1_TURN) ? GameStatus.PLAYER2_TURN : GameStatus.PLAYER1_TURN;
             }
 
-            status = (status == GameStatus.PLAYER1_TURN) ? GameStatus.PLAYER2_TURN : GameStatus.PLAYER1_TURN;
+            isOverCheck(initPlayer);
+            return buildState();
+        } finally {
+            lock.writeLock().unlock();
         }
-
-        isOverCheck(initPlayer);
-
-        return getState();
     }
 
     private void isOverCheck(int initPlayerIndex) {
@@ -165,6 +173,15 @@ public class Game {
     }
 
     public GameState getState() {
+        try {
+            lock.readLock().lock();
+            return buildState();
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    private GameState buildState() {
         return new GameStateBuilder(PINTS_PER_PLAYER)
                 .player1Pits(Arrays.copyOfRange(board[0], 0, PINTS_PER_PLAYER))
                 .player1Kalah(board[0][PINTS_PER_PLAYER])
