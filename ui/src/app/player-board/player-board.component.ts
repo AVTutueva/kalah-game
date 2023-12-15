@@ -15,7 +15,7 @@ export class PlayerBoardComponent {
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    this.gameService.isGameInProgrees$.subscribe((disableButtons) => {
+    this.gameService.isMoveInProgrees$.subscribe((disableButtons) => {
       this.isBoardDisabled = disableButtons;
     });
   }
@@ -30,24 +30,28 @@ export class PlayerBoardComponent {
       });
   }
 
-  disableBoard(pitValue: number): boolean {
+  disableBoardButtons(pitValue: number): boolean {
     return this.isBoardDisabled || pitValue === 0 || this.isPlayerTurn();
   }
 
   isPlayerTurn(): boolean {
+    const gameStatus = this.game?.state?.status;
+
     const currentPlayerStatus =
       this.playerIndex === 1
-        ? this.game.state.status !== GameStatus.PLAYER1_TURN
-        : this.game.state.status !== GameStatus.PLAYER2_TURN;
+        ? gameStatus !== GameStatus.PLAYER1_TURN
+        : gameStatus !== GameStatus.PLAYER2_TURN;
 
     return currentPlayerStatus;
   }
 
   getOrderedList(): any[] {
+    const gameState = this.game.state;
+
     const pits =
       this.playerIndex === 1
-        ? this.game.state.player1Board.pits
-        : this.game.state.player2Board.pits.slice().reverse();
+        ? gameState.player1Board.pits
+        : gameState.player2Board.pits.slice().reverse();
 
     return pits;
   }

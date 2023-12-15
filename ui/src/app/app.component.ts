@@ -6,7 +6,6 @@ import { GameStatus } from './model/gameStatus';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   game: Game | null = null;

@@ -8,13 +8,13 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GameService {
-  private baseApiUrl = 'http://localhost:8080/v1/api';
+  private baseApiUrl = 'http://localhost:8080/v1/api/game';
 
   private gameSubject = new BehaviorSubject<Game | null>(null);
   game$ = this.gameSubject.asObservable();
 
-  private isGameInProgressSubject = new BehaviorSubject<boolean>(false);
-  isGameInProgrees$ = this.isGameInProgressSubject.asObservable();
+  private isMoveInProgressSubject = new BehaviorSubject<boolean>(false);
+  isMoveInProgrees$ = this.isMoveInProgressSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -23,7 +23,7 @@ export class GameService {
   }
 
   public createGame(): Observable<Game> {
-    return this.http.post<Game>(`${this.baseApiUrl}/game`, {}).pipe(
+    return this.http.post<Game>(`${this.baseApiUrl}`, {}).pipe(
       tap((createdGame: Game) => {
         this.updateGameState(createdGame);
       })
@@ -31,13 +31,13 @@ export class GameService {
   }
 
   public makeMove(gameId: string, pitIndex: number): Observable<Game> {
-    this.isGameInProgressSubject.next(true);
+    this.isMoveInProgressSubject.next(true);
     return this.http
-      .put<Game>(`${this.baseApiUrl}/game/${gameId}?pitIndex=${pitIndex}`, {})
+      .put<Game>(`${this.baseApiUrl}/${gameId}?pitIndex=${pitIndex}`, {})
       .pipe(
         tap((updatedGame: Game) => {
           this.updateGameState(updatedGame);
-          this.isGameInProgressSubject.next(false);
+          this.isMoveInProgressSubject.next(false);
         })
       );
   }
