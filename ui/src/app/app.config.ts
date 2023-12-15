@@ -6,9 +6,15 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PitComponent } from './pit/pit.component';
 import { PlayerBoardComponent } from './player-board/player-board.component';
+import { KalahComponent } from './kalah/kalah.component';
 
 @NgModule({
-  declarations: [AppComponent, PitComponent, PlayerBoardComponent],
+  declarations: [
+    AppComponent,
+    PitComponent,
+    PlayerBoardComponent,
+    KalahComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

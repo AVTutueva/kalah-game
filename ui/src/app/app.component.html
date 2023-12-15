@@ -1,29 +1,30 @@
 <div class="container">
-  <div>
-    <h1>Kalah Game</h1>
+  <div *ngIf="game" class="kalah2">
+    <app-kalah [value]="game.state.player2Board.kalah"></app-kalah>
   </div>
-  <button (click)="createNewGame()" [disabled]="isGameInProgress">
-    Create New Game
-  </button>
-  <br />
-  <h1>{{ formatGameStatus() }}</h1>
-  <div *ngIf="game">
-    <div>
-      <h3>Player 2 Board</h3>
-      <button class="kalah-button board-button" [disabled]="true">
-        {{ game.state.player2Board.kalah }}
-      </button>
-      <app-player-board [game]="game" [playerIndex]="2"></app-player-board>
-    </div>
-    <br />
-    <div>
-      <app-player-board [game]="game" [playerIndex]="1"></app-player-board>
-      <button class="kalah-button board-button" [disabled]="true">
-        {{ game.state.player1Board.kalah }}
-      </button>
-      <h3>Player 1 Board</h3>
-    </div>
+  <div *ngIf="game" class="kalah1">
+    <app-kalah [value]="game.state.player1Board.kalah"></app-kalah>
   </div>
-  <br />
+  <div *ngIf="game" class="board1 nowrap">
+    <app-player-board [game]="game" [playerIndex]="1"></app-player-board>
+    <h3>Player 1 Board</h3>
+  </div>
+  <div *ngIf="game" class="board2 nowrap">
+    <h3>Player 2 Board</h3>
+    <app-player-board [game]="game" [playerIndex]="2"></app-player-board>
+  </div>
+  <div *ngIf="game" class="gameStatus">
+    <h3>{{ formatGameStatus() }}</h3>
+  </div>
+  <div class="gameTitle">
+    <h2>KALAH GAME</h2>
+    <button
+      (click)="createNewGame()"
+      [disabled]="isGameInProgress"
+      class="create-button"
+    >
+      Create New Game
+    </button>
+  </div>
 </div>
 <router-outlet></router-outlet>
