@@ -174,8 +174,8 @@ public class GameTests {
 
         GameState expected = new GameStateBuilder(6)
                 .player1Pits(0, 0, 0, 4, 1, 1)
-                .player1Kalah(26)
-                .player2Pits(2, 1, 1, 1, 0, 5)
+                .player1Kalah(22)
+                .player2Pits(2, 1, 1, 0, 5, 5)
                 .player2Kalah(30)
                 .status(GameStatus.PLAYER2_TURN);
 
@@ -200,33 +200,9 @@ public class GameTests {
     }
 
     @Test
-    public void player1Win() {
-        GameState state = new GameStateBuilder(6)
-                .player1Pits(0, 0, 0, 0, 1, 0)
-                .player1Kalah(31)
-                .player2Pits(2, 8, 5, 5, 5, 5)
-                .player2Kalah(10)
-                .status(GameStatus.PLAYER1_TURN);
-
-        Game game = Game.fromState(state);
-        game.makeMove(4);
-
-        GameState expected = new GameStateBuilder(6)
-                .player1Pits(0, 0, 0, 0, 0, 0)
-                .player1Kalah(40)
-                .player2Pits(0, 0, 0, 0, 0, 0)
-                .player2Kalah(32)
-                .status(GameStatus.PLAYER1_WIN);
-
-        GameState actual = game.getState();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void player2Win() {
         GameState state = new GameStateBuilder(6)
-                .player1Pits(2, 8, 5, 5, 5, 5)
+                .player1Pits(8, 2, 5, 5, 5, 5)
                 .player1Kalah(10)
                 .player2Pits(0, 0, 0, 0, 1, 0)
                 .player2Kalah(31)
@@ -252,7 +228,7 @@ public class GameTests {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 0, 0, 0, 1, 0)
                 .player1Kalah(31)
-                .player2Pits(2, 8, 5, 5, 5, 5)
+                .player2Pits(8, 2, 5, 5, 5, 5)
                 .player2Kalah(10)
                 .status(GameStatus.PLAYER1_TURN);
 
@@ -296,7 +272,7 @@ public class GameTests {
     }
 
     @Test
-    public void standoffAfterPlayer1Move() {
+    public void drawAfterPlayer1Move() {
         GameState state = new GameStateBuilder(6)
                 .player1Pits(0, 0, 0, 0, 0, 1)
                 .player1Kalah(35)
@@ -322,7 +298,7 @@ public class GameTests {
     @Test
     public void player1WinAfterOpponentStep() {
         GameState state = new GameStateBuilder(6)
-                .player1Pits(11, 5, 7, 0, 0, 1)
+                .player1Pits(11, 5, 7, 0, 1, 0)
                 .player1Kalah(36)
                 .player2Pits(1, 0, 0, 0, 0, 0)
                 .player2Kalah(11)

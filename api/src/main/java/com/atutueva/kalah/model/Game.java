@@ -101,8 +101,9 @@ public class Game {
             boolean isKalah = i == PINTS_PER_PLAYER;
 
             if (!isKalah) {
+                int indexToOwn = PINTS_PER_PLAYER - 1 - i;
                 int[] opponentBoard = board[(initPlayer + 1) % 2];
-                int opponentStones = opponentBoard[PINTS_PER_PLAYER - i];
+                int opponentStones = opponentBoard[indexToOwn];
 
                 boolean isInitPlayer = currPlayer == initPlayer;
                 boolean oneStoneInLastPit = currentBoard[i] == 1;
@@ -110,7 +111,7 @@ public class Game {
                 if (oneStoneInLastPit && isInitPlayer && opponentStones != 0) {
                     currentBoard[PINTS_PER_PLAYER] += opponentStones + 1;
                     currentBoard[i] = 0;
-                    opponentBoard[PINTS_PER_PLAYER - i] = 0;
+                    opponentBoard[indexToOwn] = 0;
                 }
 
                 status = (status == GameStatus.PLAYER1_TURN) ? GameStatus.PLAYER2_TURN : GameStatus.PLAYER1_TURN;
