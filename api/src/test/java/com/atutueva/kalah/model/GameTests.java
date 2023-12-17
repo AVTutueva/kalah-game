@@ -1,6 +1,6 @@
 package com.atutueva.kalah.model;
 
-import com.atutueva.kalah.exception.GameException;
+import com.atutueva.kalah.exception.GameGeneralException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +28,7 @@ public class GameTests {
         Game game = Game.newGame();
         int inputPitIndex = 6;
 
-        assertThrows(GameException.class, () -> {
+        assertThrows(GameGeneralException.class, () -> {
             game.makeMove(inputPitIndex);
         });
     }
@@ -38,7 +38,7 @@ public class GameTests {
         Game game = Game.newGame();
         int inputPitIndex = -1;
 
-        assertThrows(GameException.class, () -> {
+        assertThrows(GameGeneralException.class, () -> {
             game.makeMove(inputPitIndex);
         });
     }
@@ -55,7 +55,7 @@ public class GameTests {
 
         Game game = Game.fromState(state);
 
-        assertThrows(GameException.class, () -> {
+        assertThrows(GameGeneralException.class, () -> {
             game.makeMove(0);
         });
     }
@@ -71,7 +71,7 @@ public class GameTests {
 
         Game game = Game.fromState(state);
 
-        assertThrows(GameException.class, () -> {
+        assertThrows(GameGeneralException.class, () -> {
             game.makeMove(0);
         });
     }

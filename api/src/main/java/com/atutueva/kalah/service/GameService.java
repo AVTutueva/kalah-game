@@ -1,7 +1,7 @@
 package com.atutueva.kalah.service;
 
 import com.atutueva.kalah.dto.GameResponse;
-import com.atutueva.kalah.exception.GameException;
+import com.atutueva.kalah.exception.GameNotFoundException;
 import com.atutueva.kalah.model.Game;
 import com.atutueva.kalah.repository.GameRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class GameService {
     public GameResponse getById(UUID id) {
         Game game = gameRepository.getById(id);
         if (game == null) {
-            throw new GameException("Game wit id=" + id + " Not Found");
+            throw new GameNotFoundException(id);
         }
         return new GameResponse(id, game.getState());
     }
@@ -33,7 +33,7 @@ public class GameService {
     public GameResponse makeMove(UUID id, int pitIndex) {
         Game game = gameRepository.getById(id);
         if (game == null) {
-            throw new GameException("Game wit id=" + id + " Not Found");
+            throw new GameNotFoundException(id);
         }
         game.makeMove(pitIndex);
         return new GameResponse(id, game.getState());

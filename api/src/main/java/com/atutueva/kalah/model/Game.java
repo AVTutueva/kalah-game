@@ -1,6 +1,6 @@
 package com.atutueva.kalah.model;
 
-import com.atutueva.kalah.exception.GameException;
+import com.atutueva.kalah.exception.GameGeneralException;
 import com.atutueva.kalah.utils.Utils;
 
 import java.util.Arrays;
@@ -59,10 +59,10 @@ public class Game {
         try {
             lock.writeLock().lock();
             if (status == GameStatus.PLAYER1_WIN || status == GameStatus.PLAYER2_WIN || status == GameStatus.DRAW)
-                throw new GameException("Game is already over");
+                throw new GameGeneralException("Game is already over");
 
             if (pitIndex >= PINTS_PER_PLAYER || pitIndex < 0) {
-                throw new GameException("Pit Index " + pitIndex + " is invalid. Pit index should be in range [0, " + (PINTS_PER_PLAYER - 1) + "]");
+                throw new GameGeneralException("Pit Index " + pitIndex + " is invalid. Pit index should be in range [0, " + (PINTS_PER_PLAYER - 1) + "]");
             }
 
             int initPlayer = getPlayerIndex();
@@ -72,7 +72,7 @@ public class Game {
 
             int stonesToMove = currentBoard[pitIndex];
             if (stonesToMove == 0)
-                throw new GameException("Invalid move with index=" + pitIndex + ". Stones to move number should be greater than zero");
+                throw new GameGeneralException("Invalid move with index=" + pitIndex + ". Stones to move number should be greater than zero");
 
             // take off stones from pit
             currentBoard[pitIndex] = 0;
@@ -168,7 +168,7 @@ public class Game {
                 return 1;
             }
             default -> {
-                throw new GameException("Game is already over");
+                throw new GameGeneralException("Game is already over");
             }
         }
     }

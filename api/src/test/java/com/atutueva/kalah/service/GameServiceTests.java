@@ -1,7 +1,7 @@
 package com.atutueva.kalah.service;
 
 import com.atutueva.kalah.dto.GameResponse;
-import com.atutueva.kalah.exception.GameException;
+import com.atutueva.kalah.exception.GameNotFoundException;
 import com.atutueva.kalah.model.GameState;
 import com.atutueva.kalah.model.GameStateBuilder;
 import com.atutueva.kalah.model.GameStatus;
@@ -44,7 +44,7 @@ public class GameServiceTests {
 
     @Test
     public void throwExceptionWhenMakeMoveForInvalidGameId() {
-        assertThrows(GameException.class, () -> {
+        assertThrows(GameNotFoundException.class, () -> {
             gameService.makeMove(UUID.randomUUID(), 4);
         });
     }
@@ -57,7 +57,7 @@ public class GameServiceTests {
 
     @Test
     public void throwExceptionWhenGetByIdForInvalidGameId() {
-        assertThrows(GameException.class, () -> {
+        assertThrows(GameNotFoundException.class, () -> {
             gameService.getById(UUID.randomUUID());
         });
     }

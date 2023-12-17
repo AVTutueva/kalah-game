@@ -192,10 +192,10 @@ class GameControllerTests {
                         .contentType(MediaType.APPLICATION_JSON))
 
                 // status is correct
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 
                 // message
-                .andExpect(jsonPath("$.message").value("Game wit id=" + invalidId + " Not Found"));
+                .andExpect(jsonPath("$.message").value("Game with id=" + invalidId + " Not Found"));
     }
 }

@@ -9,9 +9,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GameExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(GameException.class)
-    public final ResponseEntity handleGameException(GameException exception) {
+    @ExceptionHandler(GameGeneralException.class)
+    public final ResponseEntity handleGameException(GameGeneralException exception) {
         ExceptionResponse response = ExceptionResponse.of(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @ExceptionHandler(GameNotFoundException.class)
+    public final ResponseEntity handleGameNotFoundException(GameNotFoundException exception) {
+        ExceptionResponse response = ExceptionResponse.of(exception.getMessage(), HttpStatus.NOT_FOUND);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }
