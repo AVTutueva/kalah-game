@@ -24,13 +24,11 @@ export class PlayerBoardComponent {
     this.gameService
       .makeMove(this.game.id, pitIndex)
       .subscribe((updatedGame) => {
-        console.log('make move ' + this.playerIndex + 'with index ' + pitIndex);
-        console.log(updatedGame);
         this.game = updatedGame;
       });
   }
 
-  disableBoardButtons(pitValue: number): boolean {
+  arePlayerPitsDisabled(pitValue: number): boolean {
     return this.isBoardDisabled || pitValue === 0 || this.isPlayerTurn();
   }
 

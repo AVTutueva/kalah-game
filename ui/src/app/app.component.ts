@@ -16,9 +16,11 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.game$.subscribe((game) => {
       this.game = game;
+      const gameStatus = this.game?.state?.status;
+
       this.isGameInProgress =
-        this.game?.state?.status == GameStatus.PLAYER1_TURN ||
-        this.game?.state?.status == GameStatus.PLAYER2_TURN;
+        gameStatus == GameStatus.PLAYER1_TURN ||
+        gameStatus == GameStatus.PLAYER2_TURN;
     });
   }
 

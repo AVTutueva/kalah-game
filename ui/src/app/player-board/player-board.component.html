@@ -1,6 +1,6 @@
 <app-pit
   *ngFor="let pit of getOrderedList()"
   [value]="pit.value"
-  [disableButton]="disableBoardButtons(pit.value)"
+  [disableButton]="arePlayerPitsDisabled(pit.value)"
   (pitClicked)="makeMove(pit.index)"
 ></app-pit>
