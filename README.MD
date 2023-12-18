@@ -10,7 +10,7 @@ This web application implements the Kalah game, also known as Mangala. For the g
 - The player who begins picks up all the stones in any of their own pits and sows the stones to the right, placing one in each of the following pits, including their own Kalah.
 - No stones are placed in the opponent's Kalah. If the player's last stone lands in their own Kalah, they get another turn. This can be repeated any number of times before it's the other player's turn.
 - If the last stone placed by the player in the pit is the only one there, the player moves it to Kalah, along with all the stones from the opponent’s pit located opposite.
-  Scoring
+
 ### Scoring
 - The game ends when one of the players collects more than half of the stones in the Kalah.
 - If, after a move, one of the players has no stones left in their pits, the player with stones moves all the stones from their pits to their Kalah.
